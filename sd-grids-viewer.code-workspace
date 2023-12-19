@@ -6,7 +6,7 @@
 	],
 	"settings": {
 		"liveServer.settings.ChromeDebuggingAttachment": true,
-		"liveServer.settings.wait": 2000,
+		"liveServer.settings.wait": 4000,
 		"liveServer.settings.NoBrowser": true
 	}
 }

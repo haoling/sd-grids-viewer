@@ -21,8 +21,9 @@ export default defineConfig({
         },
       },
     },
-    minify: false,
+    minify: true,
     cssCodeSplit: false,
+    sourcemap: true,
   },
   define: {
     'process.env': {}
