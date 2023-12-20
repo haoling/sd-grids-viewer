@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { createContext } from "react";
 
 export class CellSettings {
     readonly width: number = 512;
@@ -15,10 +15,13 @@ export class HeaderSettings {
     }
 }
 export class GridSettings {
+    static Context: React.Context<GridSettings> = createContext<GridSettings>(new GridSettings({}));
+
     readonly cell: CellSettings;
     readonly header: HeaderSettings;
     readonly cols?: number;
-    protected image: RefObject<HTMLImageElement> | null = null;
+    readonly rows?: number;
+    readonly image?: HTMLImageElement;
 
     constructor(init: Partial<GridSettings>) {
         Object.assign(this, init);
@@ -37,16 +40,22 @@ export class GridSettings {
         };
     }
 
-    setImage(image: RefObject<HTMLImageElement>) {
-        this.image = image;
-    }
-
     getCols(): number {
         if (this.cols && this.cols > 0) {
             return this.cols;
         }
-        if (this.image?.current) {
-            return Math.floor(this.image.current.naturalWidth / this.cell.width);
+        if (this.image) {
+            return Math.floor((this.image.naturalWidth - this.header.width) / this.cell.width);
+        }
+        return 0;
+    }
+
+    getRows(): number {
+        if (this.rows && this.rows > 0) {
+            return this.rows;
+        }
+        if (this.image) {
+            return Math.floor((this.image.naturalHeight - this.header.height) / this.cell.height);
         }
         return 0;
     }

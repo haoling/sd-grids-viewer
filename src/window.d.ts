@@ -2,6 +2,6 @@ import { GridSettings } from "./GridSettings"
 
 declare global {
     interface Window {
-        gridSettings: GridSettings;
+        gridSettings: Partial<GridSettings>;
     }
 }

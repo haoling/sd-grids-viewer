@@ -3,18 +3,18 @@ import { ImageDrawCanvas } from "./ImageDrawCanvas"
 import { GridSettings } from "./GridSettings"
 
 type Props = {
-    colIndex: number
+    rowIndex: number
 }
 
-export const LegendX: React.FC<Props> = ({ colIndex: i }) => {
+export const LegendY: React.FC<Props> = ({ rowIndex: i }) => {
     const gridSettings = useContext(GridSettings.Context)
     if (gridSettings.image?.complete) {
         return <ImageDrawCanvas
             image={gridSettings.image}
-            sx={gridSettings.header.width + (i * gridSettings.cell.width)}
-            sy={0}
-            sw={gridSettings.cell.width}
-            sh={gridSettings.header.height}
+            sx={0}
+            sy={gridSettings.header.height + (i * gridSettings.cell.height)}
+            sw={gridSettings.header.width}
+            sh={gridSettings.cell.height}
         />
     } else {
         return <></>

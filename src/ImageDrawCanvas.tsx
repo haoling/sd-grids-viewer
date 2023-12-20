@@ -1,7 +1,7 @@
-import { RefObject, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
 type Props = {
-    image: RefObject<HTMLImageElement>
+    image: HTMLImageElement
     sx: number
     sy: number
     sw: number
@@ -14,11 +14,11 @@ export const ImageDrawCanvas: React.FC<Props> = ({ image, sx, sy, sw, sh }) => {
         const tintervalId = setInterval(() => {
             if (ref.current) {
                 const ctx = ref.current.getContext('2d')
-                if (ctx && image.current) {
+                if (ctx && image) {
                     ref.current.width = sw
                     ref.current.height = sh
                     ctx.drawImage(
-                        image.current,
+                        image,
                         sx, // sx
                         sy, // sy
                         sw, // sw
@@ -33,5 +33,5 @@ export const ImageDrawCanvas: React.FC<Props> = ({ image, sx, sy, sw, sh }) => {
             }
         }, 100)
     }, [image, sx, sy, sw, sh])
-    return <canvas ref={ref}></canvas>
+    return <canvas className="m-0" ref={ref}></canvas>
 }
