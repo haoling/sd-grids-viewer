@@ -7,6 +7,7 @@
 	"settings": {
 		"liveServer.settings.ChromeDebuggingAttachment": true,
 		"liveServer.settings.wait": 4000,
-		"liveServer.settings.NoBrowser": true
+		"liveServer.settings.NoBrowser": true,
+		"liveServer.settings.root": "dist/"
 	}
 }
