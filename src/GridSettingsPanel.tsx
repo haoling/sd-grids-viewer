@@ -77,7 +77,7 @@ export const GridSettingsPanel: React.FC<Props> = ({ gridSettings, setGridSettin
         setDirty(true)
     }, [gridSettings, setGridSettings])
     const copyToClipboard = useCallback(() => {
-        navigator.clipboard.writeText(JSON.stringify(gridSettings, null, 2))
+        navigator.clipboard.writeText("window.gridSettings = " + JSON.stringify(gridSettings, null, 2) + ";")
         if (refToast.current) {
             let toast = new Toast(refToast.current)
             toast.show()

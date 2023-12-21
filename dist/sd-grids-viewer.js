@@ -25231,7 +25231,7 @@ const Fd = ({ value: v, onChange: u, step: f = 1 }) => /* @__PURE__ */ ce.jsx("i
     }
     u(new pa(V)), O(!0);
   }, [v, u]), _ = yt.useCallback(() => {
-    navigator.clipboard.writeText(JSON.stringify(v, null, 2)), f.current && new ah(f.current).show();
+    navigator.clipboard.writeText("window.gridSettings = " + JSON.stringify(v, null, 2) + ";"), f.current && new ah(f.current).show();
   }, [v]);
   return /* @__PURE__ */ ce.jsxs("div", { className: "container", children: [
     /* @__PURE__ */ ce.jsx("div", { children: "{" }),
