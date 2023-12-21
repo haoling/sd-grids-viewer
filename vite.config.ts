@@ -11,7 +11,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/main.tsx'),
       name: "DanbooruReact",
-      fileName: "_",
+      fileName: "sd-grids-viewer",
       formats: ["es"]
     },
     rollupOptions: {
@@ -20,7 +20,7 @@ export default defineConfig({
       },
       output: {
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return '_.css';
+          if (assetInfo.name === 'style.css') return 'sd-grids-viewer.css';
           return assetInfo.name;
         },
       },
