@@ -12,5 +12,5 @@ export const GridHeader: React.FC<{}> = () => {
             legends.push(<GridContainerCol key={i + 1}><LegendX colIndex={i} /></GridContainerCol>)
         }
     }
-    return <GridContainerRow isHeader={true}>{legends}</GridContainerRow>
+    return <div className="border-bottom"><GridContainerRow isHeader={true}>{legends}</GridContainerRow></div>
 }

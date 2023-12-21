@@ -1,9 +1,9 @@
 import { createContext } from "react";
 
-export class CellSettings {
+export class GridCellSettings {
     readonly width: number = 512;
     readonly height: number = 512;
-    constructor(parent:GridSettings, init?: Partial<CellSettings>) {
+    constructor(parent:GridSettings, init?: Partial<GridCellSettings>) {
         Object.assign(this, init);
 
         if (parent.image && ! init?.height) {
@@ -15,26 +15,26 @@ export class CellSettings {
         }
     }
 }
-export class HeaderSettings {
+export class GridHeaderSettings {
     readonly width: number = 384;
     readonly height: number = 256;
-    constructor(init?: Partial<HeaderSettings>) {
+    constructor(init?: Partial<GridHeaderSettings>) {
         Object.assign(this, init);
     }
 }
 export class GridSettings {
     static Context: React.Context<GridSettings> = createContext<GridSettings>(new GridSettings({}));
 
-    readonly cell: CellSettings;
-    readonly header: HeaderSettings;
+    readonly cell: GridCellSettings;
+    readonly header: GridHeaderSettings;
     readonly cols: number = 0;
     readonly rows: number = 0;
     readonly image?: HTMLImageElement;
 
     constructor(init: Partial<GridSettings>) {
         Object.assign(this, init);
-        this.header = new HeaderSettings(init?.header);
-        this.cell = new CellSettings(this, init?.cell);
+        this.header = new GridHeaderSettings(init?.header);
+        this.cell = new GridCellSettings(this, init?.cell);
 
         if (this.image) {
             this.cols = Math.floor((this.image.naturalWidth - this.header.width) / this.cell.width)

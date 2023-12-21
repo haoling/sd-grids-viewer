@@ -4,6 +4,7 @@ import { Grid } from "./Grid";
 import { CellImageModal } from "./CellImageModal";
 import { CellClickCallbackContext } from "./CellClickCallback";
 import { useKey } from "rooks";
+import { GridSettingsPanel } from "./GridSettingsPanel";
 
 function App() {
   const pathbase = location.href.replace(/\.html?$/, '');
@@ -65,6 +66,9 @@ function App() {
         </CellClickCallbackContext.Provider>
         <CellImageModal show={modalShow} rowIndex={modalRowIndex} colIndex={modalColIndex} onClosing={onModalClosing} />
       </GridSettings.Context.Provider>
+      <div className="container position-absolute top-0 left-0">
+        <GridSettingsPanel gridSettings={gridSettings} setGridSettings={setGridSettings} />
+      </div>
     </>
   )
 }
