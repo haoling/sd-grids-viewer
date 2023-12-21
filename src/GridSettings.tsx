@@ -37,8 +37,16 @@ export class GridSettings {
         this.cell = new GridCellSettings(this, init?.cell);
 
         if (this.image) {
-            this.cols = Math.floor((this.image.naturalWidth - this.header.width) / this.cell.width)
-            this.rows = Math.floor((this.image.naturalHeight - this.header.height) / this.cell.height)
+            if (this.header.width + (this.cell.width * this.cols) != this.image.naturalWidth || this.header.height + (this.cell.height * this.rows) != this.image.naturalHeight) {
+                this.cols = Math.floor(this.image.naturalWidth / this.cell.width)
+                this.rows = Math.floor(this.image.naturalHeight / this.cell.height)
+                let headerWidth = this.image.naturalWidth - (this.cell.width * this.cols)
+                let headerHheight = this.image.naturalHeight - (this.cell.height * this.rows)
+                this.header = new GridHeaderSettings({ width: headerWidth, height: headerHheight });
+            } else {
+                this.cols = Math.floor((this.image.naturalWidth - this.header.width) / this.cell.width)
+                this.rows = Math.floor((this.image.naturalHeight - this.header.height) / this.cell.height)
+            }
         }
     }
 
