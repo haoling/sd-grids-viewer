@@ -1,16 +1,16 @@
 import { createContext } from "react";
 
 export class GridCellSettings {
-    readonly width: number = 512;
+    readonly width: number = 384;
     readonly height: number = 512;
     constructor(parent:GridSettings, init?: Partial<GridCellSettings>) {
         Object.assign(this, init);
 
         if (parent.image && ! init?.height) {
-            if ((parent.image.naturalHeight - parent.header.height) % 512 == 0) {
-                this.height = 512;
-            } else if ((parent.image.naturalHeight - parent.header.height) % 768 == 0) {
+            if ((parent.image.naturalHeight - parent.header.height) % 768 == 0) {
                 this.height = 768;
+            } else if ((parent.image.naturalHeight - parent.header.height) % 512 == 0) {
+                this.height = 512;
             }
         }
     }
