@@ -1,42 +1,54 @@
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, UserConfig } from 'vite'
 import { fileURLToPath, URL } from 'url'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  base: 'https://cdn.jsdelivr.net/gh/haoling/sd-grids-viewer@main/dist/',
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/main.tsx'),
-      name: "DanbooruReact",
-      fileName: "sd-grids-viewer",
-      formats: ["es"]
-    },
-    rollupOptions: {
-      input: {
-        sample: "sample.html",
+export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
+  const config: UserConfig = {
+    plugins: [
+      react(),
+    ],
+    base: 'https://cdn.jsdelivr.net/gh/haoling/sd-grids-viewer@main/dist/',
+    build: {
+      lib: {
+        entry: resolve(__dirname, 'src/main.tsx'),
+        name: "DanbooruReact",
+        fileName: "sd-grids-viewer",
+        formats: ["es"]
       },
-      output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'sd-grids-viewer.css';
-          return assetInfo.name;
+      rollupOptions: {
+        input: {
+          sample: "sample.html",
+        },
+        output: {
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name === 'style.css') return 'sd-grids-viewer.css';
+            return assetInfo.name;
+          },
         },
       },
+      minify: true,
+      cssCodeSplit: false,
+      sourcemap: true,
     },
-    minify: false,
-    cssCodeSplit: false,
-    sourcemap: true,
-  },
-  define: {
-    'process.env': {
-      NODE_ENV: 'development'
-    }
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+    define: {
+      'process.env': {}
+    },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      }
     }
   }
+
+  if (mode == 'development') {
+    config.build.minify = false
+    config.build.cssMinify = false
+    process.env.NODE_ENV = 'development'
+    config.mode = 'development'
+    config.base = './'
+  }
+
+  return config
 })
