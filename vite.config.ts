@@ -9,7 +9,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
     plugins: [
       react(),
     ],
-    base: 'https://cdn.jsdelivr.net/gh/haoling/sd-grids-viewer@v0.4/dist/',
+    base: 'https://cdn.jsdelivr.net/gh/haoling/sd-grids-viewer@v0.5/dist/',
     build: {
       lib: {
         entry: resolve(__dirname, 'src/main.tsx'),
