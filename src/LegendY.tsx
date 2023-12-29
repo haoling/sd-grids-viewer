@@ -1,15 +1,14 @@
-import { useContext } from "react"
+import { ReactEventHandler, useCallback, useContext } from "react"
 import { ImageDrawCanvas } from "./ImageDrawCanvas"
-import { GridSettings } from "./GridSettings"
 import useDeferredState from "use-deferred-state"
-import { GridContainerRowSortDownButton, GridContainerRowSortUpButton } from "./GridContainer"
+import { GridSettingsContainerContext } from "./GridSettingsContainer"
 
 type Props = {
     rowIndex: number
 }
 
 export const LegendY: React.FC<Props> = ({ rowIndex: i }) => {
-    const gridSettingsOriginal = useContext(GridSettings.Context)
+    const gridSettingsOriginal = useContext(GridSettingsContainerContext).gridSettings
     const gridSettings = useDeferredState(gridSettingsOriginal, [], 500)
     if (gridSettings.image?.complete) {
         return <div className="position-relative">
@@ -26,4 +25,49 @@ export const LegendY: React.FC<Props> = ({ rowIndex: i }) => {
     } else {
         return <></>
     }
+}
+
+const GridContainerRowSortUpButton: React.FC<{ rowIndex: number }> = ({ rowIndex }) => {
+    const { rowSortList, setRowSortList } = useContext(GridSettingsContainerContext)
+    const callback = useCallback<ReactEventHandler<HTMLDivElement>>(() => {
+        const index = rowSortList.indexOf(rowIndex)
+        const front = rowSortList.slice(0, index)
+        const back = rowSortList.slice(index + 1)
+        const pop = front.pop()
+        front.push(rowSortList[index])
+        if (pop !== undefined) {
+            back.unshift(pop)
+        }
+        setRowSortList(front.concat(back))
+    }, [rowIndex, rowSortList])
+
+    if (rowSortList.indexOf(rowIndex) === 0) {
+        return <></>
+    }
+
+    return <div className="btn btn-primary position-absolute top-0 left-0 my-2" onClick={callback}>
+        <i className="bi bi-caret-up-fill"></i>
+    </div>
+}
+
+const GridContainerRowSortDownButton: React.FC<{ rowIndex: number }> = ({ rowIndex }) => {
+    const { rowSortList, setRowSortList } = useContext(GridSettingsContainerContext)
+    const callback = useCallback<ReactEventHandler<HTMLDivElement>>(() => {
+        const index = rowSortList.indexOf(rowIndex)
+        const front = rowSortList.slice(0, index)
+        const back = rowSortList.slice(index + 1)
+        const shift = back.shift()
+        back.unshift(rowSortList[index])
+        if (shift !== undefined) {
+            front.push(shift)
+        }
+        setRowSortList(front.concat(back))
+    }, [rowIndex, rowSortList])
+    if (rowSortList.indexOf(rowIndex) === rowSortList.length - 1) {
+        return <></>
+    }
+
+    return <div className="btn btn-primary position-absolute bottom-0 left-0 my-2" onClick={callback}>
+        <i className="bi bi-caret-down-fill"></i>
+    </div>
 }

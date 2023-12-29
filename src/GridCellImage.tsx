@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { ImageDrawCanvas } from "./ImageDrawCanvas"
-import { GridSettings } from "./GridSettings"
 import useDeferredState from "use-deferred-state"
+import { GridSettingsContainerContext } from "./GridSettingsContainer"
 
 type Props = {
     rowIndex: number
@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const GridCellImage: React.FC<Props> = ({ rowIndex: r, colIndex: c }) => {
-    const gridSettingsOriginal = useContext(GridSettings.Context)
+    const gridSettingsOriginal = useContext(GridSettingsContainerContext).gridSettings
     const gridSettings = useDeferredState(gridSettingsOriginal, [], 500)
     if (gridSettings.image?.complete) {
         return <ImageDrawCanvas

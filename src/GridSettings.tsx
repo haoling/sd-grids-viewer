@@ -1,5 +1,3 @@
-import { createContext } from "react";
-
 export class GridCellSettings {
     readonly width: number = 384;
     readonly height: number = 512;
@@ -23,8 +21,6 @@ export class GridHeaderSettings {
     }
 }
 export class GridSettings {
-    static Context: React.Context<GridSettings> = createContext<GridSettings>(new GridSettings({}));
-
     readonly cell: GridCellSettings;
     readonly header: GridHeaderSettings;
     readonly cols: number = 0;

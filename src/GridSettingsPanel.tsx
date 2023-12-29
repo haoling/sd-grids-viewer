@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactNode, useCallback, useEffect, useRef, useState } from "react"
+import { ReactNode, forwardRef, useCallback, useImperativeHandle, useRef, useState } from "react"
 import { GridCellSettings, GridHeaderSettings, GridSettings } from "./GridSettings"
 import { Toast } from "bootstrap"
 
@@ -20,13 +20,16 @@ const GridCellSettingsPanel: React.FC<{ cellSettings: GridCellSettings, onChange
         &#x7d;</>
 }
 
+export type GridSettingsPanelType = {
+    setDirty: () => void
+}
+
 type Props = {
     gridSettings: GridSettings
     setGridSettings: (gridSettings: GridSettings) => void
-    setDirtyRef?: MutableRefObject<() => void>
 }
 
-export const GridSettingsPanel: React.FC<Props> = ({ gridSettings, setGridSettings, setDirtyRef }) => {
+export const GridSettingsPanel = forwardRef<GridSettingsPanelType, Props>(({ gridSettings, setGridSettings }, ref) => {
     const refToast = useRef<HTMLDivElement>(null)
     let errorMessage: ReactNode[] = []
     const [dirty, setDirty] = useState(false)
@@ -38,11 +41,9 @@ export const GridSettingsPanel: React.FC<Props> = ({ gridSettings, setGridSettin
             errorMessage.push(<div key="wrong-height">header.height + (cell.height * rows) != image.naturalHeight</div>)
         }
     }
-    useEffect(() => {
-        if (setDirtyRef) {
-            setDirtyRef.current = () => setDirty(true)
-        }
-    }, [setDirtyRef, setDirty])
+
+    useImperativeHandle(ref, () => ({ setDirty: () => setDirty(true) }), [setDirty])
+
     const changeSettings = useCallback((changes: Partial<GridSettings>) => {
         let newSettings = { ...gridSettings, ...changes }
         if (gridSettings.image) {
@@ -123,4 +124,4 @@ export const GridSettingsPanel: React.FC<Props> = ({ gridSettings, setGridSettin
             </div>
         </div>
     </div>
-}
+})

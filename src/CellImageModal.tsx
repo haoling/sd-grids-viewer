@@ -2,8 +2,8 @@ import { Modal } from "bootstrap";
 import { GridCellImage } from "./GridCellImage"
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { LegendX } from "./LegendX";
-import { GridSettings } from "./GridSettings";
 import { LegendY } from "./LegendY";
+import { GridSettingsContainerContext } from "./GridSettingsContainer";
 
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 }
 
 export const CellImageModal: React.FC<Props> = ({ show: showParam, defaultZoom, rowIndex, colIndex, ...eventHandlers }) => {
-    const gridSettings = useContext(GridSettings.Context);
+    const {gridSettings} = useContext(GridSettingsContainerContext)
     const [show, setShow] = showParam !== undefined ? [showParam, () => { }] : useState(false);
     const [zoom, setZoom] = useState(defaultZoom !== undefined ? defaultZoom : 1.0);
     const refModal = useRef<HTMLDivElement>(null);
