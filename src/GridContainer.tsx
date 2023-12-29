@@ -17,42 +17,47 @@ const GridSortContext: React.Context<GridSortContext> = createContext<GridSortCo
     isLast: () => false,
 })
 
-export const GridContainer: React.FC<{children:ReactNode}> = ({children}) => {
+type Props = {
+    children:ReactNode
+    rowSortList: number[]
+    setRowSortList: (sortList: number[]) => void
+}
+
+export const GridContainer: React.FC<Props> = ({children, rowSortList, setRowSortList}) => {
     const gridSettings = useContext(GridSettings.Context)
-    const [sortList, setSortList] = useState<string[]>([])
     const [sortable, setSortable] = useState<Sortable | null>(null)
     const refList = useRef<HTMLUListElement>(null)
     const rowSortContext:GridSortContext = {
         UpCallback: useCallback<GridSortCallback>((rowIndex) => {
             console.log("onRowSortAction")
-            const index = sortList.indexOf((rowIndex + 1).toString())
-            const front = sortList.slice(0, index)
-            const back = sortList.slice(index + 1)
+            const index = rowSortList.indexOf(rowIndex + 1)
+            const front = rowSortList.slice(0, index)
+            const back = rowSortList.slice(index + 1)
             const pop = front.pop()
-            front.push(sortList[index])
+            front.push(rowSortList[index])
             if (pop) {
                 back.unshift(pop)
             }
-            setSortList(front.concat(back))
-        }, [sortList]),
+            setRowSortList(front.concat(back))
+        }, [rowSortList]),
         DownCallback: useCallback<GridSortCallback>((rowIndex) => {
             console.log("onRowSortAction")
-            const index = sortList.indexOf((rowIndex + 1).toString())
-            const front = sortList.slice(0, index)
-            const back = sortList.slice(index + 1)
+            const index = rowSortList.indexOf(rowIndex + 1)
+            const front = rowSortList.slice(0, index)
+            const back = rowSortList.slice(index + 1)
             const shift = back.shift()
-            back.unshift(sortList[index])
+            back.unshift(rowSortList[index])
             if (shift) {
                 front.push(shift)
             }
-            setSortList(front.concat(back))
-        }, [sortList]),
+            setRowSortList(front.concat(back))
+        }, [rowSortList]),
         isFirst: useCallback<GridTestCallback>((rowIndex) => {
-            return sortList.indexOf((rowIndex + 1).toString()) === 1
-        }, [sortList]),
+            return rowSortList.indexOf(rowIndex + 1) === 1
+        }, [rowSortList]),
         isLast: useCallback<GridTestCallback>((rowIndex) => {
-            return sortList.indexOf((rowIndex + 1).toString()) === sortList.length - 1
-        }, [sortList]),
+            return rowSortList.indexOf(rowIndex + 1) === rowSortList.length - 1
+        }, [rowSortList]),
     }
     useEffect(() => {
         if (refList.current) {
@@ -60,17 +65,17 @@ export const GridContainer: React.FC<{children:ReactNode}> = ({children}) => {
                 animation: 150,
                 disabled: true,
             }))
-            let list = ["0"]
+            let list = [0]
             for (let i = 0; i < gridSettings.rows; i++) {
-                list.push((i + 1).toString())
+                list.push(i + 1)
             }
-            setSortList(list)
+            setRowSortList(list)
         }
-    }, [children])
+    }, [gridSettings.rows])
     useEffect(() => {
         console.log("sortable?.sort(sortList)")
-        sortable?.sort(sortList, true)
-    }, [sortable, sortList])
+        sortable?.sort(rowSortList.map(v => v.toString()), true)
+    }, [sortable, rowSortList])
     return <GridSortContext.Provider value={rowSortContext}>
         <ul className="container" style={{zoom:0.5}} ref={refList}>{children}</ul>
     </GridSortContext.Provider>

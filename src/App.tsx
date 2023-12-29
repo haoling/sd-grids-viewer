@@ -13,6 +13,7 @@ function App() {
   const [modalShow, setModalShow] = useState(false);
   const [modalRowIndex, setModalRowIndex] = useState(0);
   const [modalColIndex, setModalColIndex] = useState(0);
+  const [rowSortList, setRowSortList] = useState<number[]>([])
   const cellClickCallback = useCallback((rowIndex: number, colIndex: number) => {
     setModalRowIndex(rowIndex);
     setModalColIndex(colIndex);
@@ -36,13 +37,15 @@ function App() {
       return;
     }
     if (event.key === "ArrowUp") {
-      if (modalRowIndex > 0) {
-        setModalRowIndex(modalRowIndex - 1);
+      const rowSortIndex = rowSortList.indexOf(modalRowIndex + 1);
+      if (rowSortIndex > 1) {
+        setModalRowIndex(rowSortList[rowSortIndex - 1] - 1);
       }
     }
     if (event.key === "ArrowDown") {
-      if (modalRowIndex < gridSettings.rows - 1) {
-        setModalRowIndex(modalRowIndex + 1);
+      const rowSortIndex = rowSortList.indexOf(modalRowIndex + 1);
+      if (rowSortIndex < rowSortList.length - 1) {
+        setModalRowIndex(rowSortList[rowSortIndex + 1] - 1);
       }
     }
     if (event.key === "ArrowLeft") {
@@ -62,7 +65,7 @@ function App() {
       <img ref={refImg} style={{ display: "none" }} onLoad={onLoadedImage} />
       <GridSettings.Context.Provider value={gridSettings}>
         <CellClickCallbackContext.Provider value={cellClickCallback}>
-          <Grid />
+          <Grid rowSortList={rowSortList} setRowSortList={setRowSortList} />
         </CellClickCallbackContext.Provider>
         <CellImageModal show={modalShow} rowIndex={modalRowIndex} colIndex={modalColIndex} onClosing={onModalClosing} />
       </GridSettings.Context.Provider>

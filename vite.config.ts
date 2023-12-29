@@ -3,13 +3,15 @@ import { defineConfig, UserConfig } from 'vite'
 import { fileURLToPath, URL } from 'url'
 import react from '@vitejs/plugin-react'
 
+const VERSION = 'v0.7'
+
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
   const config: UserConfig = {
     plugins: [
       react(),
     ],
-    base: 'https://cdn.jsdelivr.net/gh/haoling/sd-grids-viewer@v0.6/dist/',
+    base: 'https://cdn.jsdelivr.net/gh/haoling/sd-grids-viewer@' + VERSION + '/dist/',
     build: {
       lib: {
         entry: resolve(__dirname, 'src/main.tsx'),

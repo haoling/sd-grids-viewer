@@ -4,7 +4,12 @@ import { GridHeader } from "./GridHeader"
 import { GridRow } from "./GridRow"
 import { GridContainer } from "./GridContainer"
 
-export const Grid: React.FC<{}> = () => {
+type Props = {
+    rowSortList: number[]
+    setRowSortList: (sortList: number[]) => void
+}
+
+export const Grid: React.FC<Props> = (props) => {
     const gridSettings = useContext(GridSettings.Context)
     let rows: JSX.Element[] = []
     rows.push(<GridHeader key={0} />)
@@ -13,5 +18,5 @@ export const Grid: React.FC<{}> = () => {
             rows.push(<GridRow key={i + 1} rowIndex={i} />)
         }
     }
-    return <GridContainer>{rows}</GridContainer>
+    return <GridContainer {...props}>{rows}</GridContainer>
 }
