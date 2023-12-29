@@ -30,6 +30,7 @@ export class GridSettings {
     readonly cols: number = 0;
     readonly rows: number = 0;
     readonly image?: HTMLImageElement;
+    readonly rowsOrder?: number[];
 
     constructor(init: Partial<GridSettings>) {
         Object.assign(this, init);

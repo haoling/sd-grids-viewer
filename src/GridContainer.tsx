@@ -29,34 +29,32 @@ export const GridContainer: React.FC<Props> = ({children, rowSortList, setRowSor
     const refList = useRef<HTMLUListElement>(null)
     const rowSortContext:GridSortContext = {
         UpCallback: useCallback<GridSortCallback>((rowIndex) => {
-            console.log("onRowSortAction")
-            const index = rowSortList.indexOf(rowIndex + 1)
+            const index = rowSortList.indexOf(rowIndex)
             const front = rowSortList.slice(0, index)
             const back = rowSortList.slice(index + 1)
             const pop = front.pop()
             front.push(rowSortList[index])
-            if (pop) {
+            if (pop !== undefined) {
                 back.unshift(pop)
             }
             setRowSortList(front.concat(back))
         }, [rowSortList]),
         DownCallback: useCallback<GridSortCallback>((rowIndex) => {
-            console.log("onRowSortAction")
-            const index = rowSortList.indexOf(rowIndex + 1)
+            const index = rowSortList.indexOf(rowIndex)
             const front = rowSortList.slice(0, index)
             const back = rowSortList.slice(index + 1)
             const shift = back.shift()
             back.unshift(rowSortList[index])
-            if (shift) {
+            if (shift !== undefined) {
                 front.push(shift)
             }
             setRowSortList(front.concat(back))
         }, [rowSortList]),
         isFirst: useCallback<GridTestCallback>((rowIndex) => {
-            return rowSortList.indexOf(rowIndex + 1) === 1
+            return rowSortList.indexOf(rowIndex) === 0
         }, [rowSortList]),
         isLast: useCallback<GridTestCallback>((rowIndex) => {
-            return rowSortList.indexOf(rowIndex + 1) === rowSortList.length - 1
+            return rowSortList.indexOf(rowIndex) === rowSortList.length - 1
         }, [rowSortList]),
     }
     useEffect(() => {
@@ -65,16 +63,11 @@ export const GridContainer: React.FC<Props> = ({children, rowSortList, setRowSor
                 animation: 150,
                 disabled: true,
             }))
-            let list = [0]
-            for (let i = 0; i < gridSettings.rows; i++) {
-                list.push(i + 1)
-            }
-            setRowSortList(list)
         }
     }, [gridSettings.rows])
     useEffect(() => {
-        console.log("sortable?.sort(sortList)")
-        sortable?.sort(rowSortList.map(v => v.toString()), true)
+        const sortList = ["0"].concat(rowSortList.map(v => (v + 1).toString()))
+        sortable?.sort(sortList, true)
     }, [sortable, rowSortList])
     return <GridSortContext.Provider value={rowSortContext}>
         <ul className="container" style={{zoom:0.5}} ref={refList}>{children}</ul>
