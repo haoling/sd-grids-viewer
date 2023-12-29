@@ -27,15 +27,15 @@ export const CellImageModalContainer: React.FC<Props> = ({ children }) => {
         }
         if (gridSettings.rowsOrder) {
             if (event.key === "ArrowUp") {
-                const rowSortIndex = gridSettings.rowsOrder.indexOf(modalRowIndex + 1);
-                if (rowSortIndex > 1) {
-                    setModalRowIndex(gridSettings.rowsOrder[rowSortIndex - 1] - 1);
+                const rowSortIndex = gridSettings.rowsOrder.indexOf(modalRowIndex);
+                if (rowSortIndex > 0) {
+                    setModalRowIndex(gridSettings.rowsOrder[rowSortIndex - 1]);
                 }
             }
             if (event.key === "ArrowDown") {
-                const rowSortIndex = gridSettings.rowsOrder.indexOf(modalRowIndex + 1);
+                const rowSortIndex = gridSettings.rowsOrder.indexOf(modalRowIndex);
                 if (rowSortIndex < gridSettings.rowsOrder.length - 1) {
-                    setModalRowIndex(gridSettings.rowsOrder[rowSortIndex + 1] - 1);
+                    setModalRowIndex(gridSettings.rowsOrder[rowSortIndex + 1]);
                 }
             }
             if (event.key === "ArrowLeft") {

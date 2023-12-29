@@ -21,6 +21,7 @@ export const LegendY: React.FC<Props> = ({ rowIndex: i }) => {
             />
             <GridContainerRowSortUpButton rowIndex={i} />
             <GridContainerRowSortDownButton rowIndex={i} />
+            <GridContainerRowSortRemoveButton rowIndex={i} />
         </div>
     } else {
         return <></>
@@ -45,7 +46,7 @@ const GridContainerRowSortUpButton: React.FC<{ rowIndex: number }> = ({ rowIndex
         return <></>
     }
 
-    return <div className="btn btn-primary position-absolute top-0 left-0 my-2" onClick={callback}>
+    return <div className="btn btn-primary position-absolute top-0 start-0 my-2" onClick={callback}>
         <i className="bi bi-caret-up-fill"></i>
     </div>
 }
@@ -67,7 +68,24 @@ const GridContainerRowSortDownButton: React.FC<{ rowIndex: number }> = ({ rowInd
         return <></>
     }
 
-    return <div className="btn btn-primary position-absolute bottom-0 left-0 my-2" onClick={callback}>
+    return <div className="btn btn-primary position-absolute bottom-0 start-0 my-2" onClick={callback}>
         <i className="bi bi-caret-down-fill"></i>
+    </div>
+}
+
+const GridContainerRowSortRemoveButton: React.FC<{ rowIndex: number }> = ({ rowIndex }) => {
+    const { rowSortList, setRowSortList } = useContext(GridSettingsContainerContext)
+    const callback = useCallback<ReactEventHandler<HTMLDivElement>>(() => {
+        const index = rowSortList.indexOf(rowIndex)
+        const front = rowSortList.slice(0, index)
+        const back = rowSortList.slice(index + 1)
+        setRowSortList(front.concat(back))
+    }, [rowIndex, rowSortList])
+    if (rowSortList.length == 1) {
+        return <></>
+    }
+
+    return <div className="btn btn-danger position-absolute top-0 end-0 my-2" onClick={callback}>
+        <i className="bi bi-x-lg"></i>
     </div>
 }

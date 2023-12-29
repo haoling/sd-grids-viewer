@@ -3,7 +3,7 @@ import { defineConfig, UserConfig } from 'vite'
 import { fileURLToPath, URL } from 'url'
 import react from '@vitejs/plugin-react'
 
-const VERSION = 'v0.7'
+const VERSION = 'v0.8'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
