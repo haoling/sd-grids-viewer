@@ -17,5 +17,5 @@ export const GridRow: React.FC<Props> = ({rowIndex}) => {
             canvases.push(<GridContainerCol key={i + 1}><GridCell rowIndex={rowIndex} colIndex={i} /></GridContainerCol>)
         }
     }
-    return <GridContainerRow>{canvases}</GridContainerRow>
+    return <GridContainerRow rowIndex={rowIndex}>{canvases}</GridContainerRow>
 }

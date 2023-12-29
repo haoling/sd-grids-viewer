@@ -3,10 +3,11 @@ import { GridSettings } from "./GridSettings"
 
 type Props = {
     children: ReactNode
+    rowIndex: number
     isHeader?: boolean
 }
 
-export const GridContainerRow: React.FC<Props> = ({children, isHeader}) => {
+export const GridContainerRow: React.FC<Props> = ({children, rowIndex, isHeader}) => {
     const gridSettings = useContext(GridSettings.Context)
-    return <div className="row flex-nowrap" style={{height: isHeader ? gridSettings.header.height : gridSettings.cell.height}}>{children}</div>
+    return <li className="row flex-nowrap" data-id={rowIndex + (isHeader ? 0 : 1)} style={{height: isHeader ? gridSettings.header.height + 2 : gridSettings.cell.height + 2}}>{children}</li>
 }

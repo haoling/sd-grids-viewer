@@ -9,5 +9,5 @@ type Props = {
 export const GridContainerCol: React.FC<Props> = ({children, isTitle}) => {
     const gridSettings = useContext(GridSettings.Context)
     const width = isTitle ? gridSettings.header.width : gridSettings.cell.width
-    return <div className={"col p-0" + (isTitle ? "" : " border")} style={{width: width, minWidth: width}}>{children}</div>
+    return <div className={"col p-0 border"} style={{width: width, minWidth: width}}>{children}</div>
 }
